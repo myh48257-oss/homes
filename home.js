@@ -32,12 +32,30 @@ document.getElementById("exit").onclick = function() {
 let folderHandle = null;
 let fileHandle = null;
 document.getElementById("open").addEventListener("click", async () => {
-    folderHandle = await window.showDirectoryPicker();
-    fileHandle = await folderHandle.getFileHandle("directory-structure.txt");
-    load();
-})
+    try {
+        folderHandle = await window.showDirectoryPicker({
+            mode: "readwrite"
+        });
+        fileHandle = await folderHandle.getFileHandle(
+            "directory-structure.txt",
+            {create: true}
+        );
+        alert("フォルダを正常に開けました");
+        await load();
+    } catch(error) {
+        alert("フォルダを開けませんでした\n" + error.name + "\n" + error.message);
+    }
+});
 async function load() {
+    if(!fileHandle) {
+        alert("fileHandleがありません");
+        return;
+    }
     const file = await fileHandle.getFile();
+    if(!file) {
+        alert("ファイルが取得できませんでした");
+        return;
+    }
     const text = await file.text();
     if(text.trim() === "") {
         return;
@@ -81,6 +99,10 @@ function update() {
 }
 
 async function writing(title) {
+    fileHandle = await folderHandle.getFileHandle(
+            "2Dcad-data.txt",
+            {create: true}
+        );
     if(!fileHandle) {
         alert("先にフォルダを選択してください");
         return;
