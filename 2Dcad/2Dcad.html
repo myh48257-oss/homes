@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>2Dcad</title>
+    <link rel="stylesheet" href="2Dcad.css">
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div id="bar-back"></div>
+    <input id="title-name" placeholder="タイトル名"></input>
+    <div id="file">
+        <button id="file-menu">ファイル</button>
+        <div id="dropdown-file">
+            <div>ファイルの読込</div>
+            <div>ファイルの保存</div>
+            <div>ホーム</div>
+        </div>
+    </div>
+    <div id="edit">
+        <button id="edit-menu">編集</button>
+        <div id="dropdown-edit">
+            <div>文字色</div>
+            <div>文字の位置</div>
+            <div>縦書き</div>
+            <div>文字間隔</div>
+            <div>行間隔</div>
+            <div>フォント</div>
+            <div>文字の影</div>
+            <div>背景色</div>
+            <div>透明度</div>
+            <hr>
+            <div>変形</div>
+            <div>図形の透明度</div>
+            <div>寸法</div>
+        </div>
+    </div>
+    <div id="insertion">
+        <button id="insertion-menu">挿入</button>
+        <div id="dropdown-insertion">
+            <div>テキスト</div>
+            <div>図形</div>
+            <div>表</div>
+            <div>関数</div>
+        </div>
+    </div>
+    <div id="setting">
+        <button id="setting-menu">設定</button>
+        <div id="dropdown-setting">
+            <div>グリッド</div>
+        </div>
+    </div>
+    <button id="folder_loading">フォルダ設定。※必ず押してください</button>
+    <div id="debug">debug</div>
+    <script src="2Dcad.js"></script>
+</body>
+</html>
