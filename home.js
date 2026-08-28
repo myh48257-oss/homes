@@ -45,17 +45,21 @@ document.getElementById("open").addEventListener("click", async () => {
     }
 });
 async function load() {
+    if(!folderHandle) {
+        alert("先にフォルダを選択してください\n(load)");
+        return;
+    }
     fileHandle_ds = await folderHandle.getFileHandle(
             "directory-structure.txt",
             {create: true}
     );
     if(!fileHandle_ds) {
-        alert("fileHandleがありません");
+        alert("fileHandleがありません\n(load)");
         return;
     }
     const file = await fileHandle_ds.getFile();
     if(!file) {
-        alert("ファイルが取得できませんでした");
+        alert("ファイルが取得できませんでした\n(load)");
         return;
     }
     const text = await file.text();
@@ -104,20 +108,20 @@ function update() {
 }
 
 async function writing_datas(title, select, num) {
+    if(!folderHandle) {
+        alert("データを保存する場合はフォルダを選択してください\n(writing_datas)");
+        return;
+    }
     fileHandle_datas = await folderHandle.getFileHandle(
         "datas.txt",
         {create: true}
     )
-    if(!fileHandle_datas) {
-        alert("先にフォルダを選択してください");
-        return;
-    }
     const file_datas = await fileHandle_datas.getFile();
     if(num === 1) {
         let olddata_datas = (await file_datas.text()).split("#");
         for(let i = 0; i < olddata_datas.length/2; i++) {
             if(olddata_datas[3*i+2] === title && olddata_datas[3*i+3] === select) {
-                alert("datas.txtに保存されるものはありませんでした。")
+                alert("datas.txtに保存されるものはありませんでした。\n(writing_datas)")
                 return;
             }
         }
@@ -131,18 +135,18 @@ async function writing_datas(title, select, num) {
         const writable_datas = await fileHandle_datas.createWritable();
         await writable_datas.write(newdata_datas);
         await writable_datas.close();
-        alert("正常にdatas.txtに保存されました");
+        alert("正常にdatas.txtに保存されました\n(writing_datas)");
     }
 }
 async function writing_directory_structured(title, select) {
+    if(!folderHandle) {
+        alert("データを保存する場合はフォルダを選択してください\n(writing_directory_structured)");
+        return;
+    }
     fileHandle_ds = await folderHandle.getFileHandle(
             "directory-structure.txt",
             {create: true}
-        )
-    if(!fileHandle_ds) {
-        alert("先にフォルダを選択してください");
-        return;
-    }
+    )
     const file_ds = await fileHandle_ds.getFile();
     let olddata_ds = await file_ds.text();
     olddata_ds = olddata_ds.split(",");
@@ -155,7 +159,7 @@ async function writing_directory_structured(title, select) {
     const writable_ds = await fileHandle_ds.createWritable();
     await writable_ds.write(newdata_ds);
     await writable_ds.close();
-    alert("正常にdirectory-structure.txtに保存されました")
+    alert("正常にdirectory-structure.txtに保存されました\n(writing_directory_structured)")
 }
 
 document.addEventListener("mousemove", (event) => {
@@ -172,7 +176,6 @@ document.addEventListener("mousemove", (event) => {
             clone_element.style.transform = "scale(0.95)";
             clone_element.onclick = async function () {
                 if(clone_element.querySelector(".types").textContent == "2Dcad") {
-                await writing(clone_element.querySelector(".samples").textContent);
                 await load();
                 await window.open("2Dcad/2Dcad.html", "_blank");
                 clone_element.style.transform = "scale(1)";
